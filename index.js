@@ -13,9 +13,25 @@ const app = express();
 // app.use(express.static("public"));
 
 //===============API -Endpoint  -Route==========
-app.get("/product/:id", (req, res) => {
-  console.log(req.params);
-  res.json({ type: "GET" });
+// products
+//API ROOT, base URL, google.com/api/v2
+// GET /products READ
+app.get("/products", (req, res) => {
+  res.json(products);
+});
+
+app.get("/products/:id", (req, res) => {
+  console.log(typeof req.params.id); //string form
+
+  const id = +req.params.id;
+
+  console.log(typeof id); //number
+
+  const product = products.find((p) => p.id === id);
+
+  res.json(product);
+
+  // res.json(products);
 });
 
 //using auth for POST methdod

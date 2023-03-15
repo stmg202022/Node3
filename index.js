@@ -46,7 +46,7 @@ app.get("/products/:id", (req, res) => {
   // res.json(products);
 });
 
-//Update PUT /products/:id
+//UPDATE PUT /products/:id
 app.put("/products/:id", (req, res) => {
   console.log(typeof req.params.id); //string form
 
@@ -62,7 +62,7 @@ app.put("/products/:id", (req, res) => {
   // res.json(products);
 });
 
-//Update PATCH /products/:id
+//UPDATE PATCH /products/:id
 app.patch("/products/:id", (req, res) => {
   console.log(typeof req.params.id); //string form
 
@@ -80,8 +80,23 @@ app.patch("/products/:id", (req, res) => {
   // res.json(products);
 });
 
-app.delete("/", (req, res) => {
-  res.json({ type: "DELETE" });
+//DELETE /products/:id
+app.delete("/products/:id", (req, res) => {
+  console.log(typeof req.params.id); //string form
+
+  const id = +req.params.id;
+
+  console.log(typeof id); //number
+
+  const productIndex = products.findIndex((p) => p.id === id);
+
+  const product = products[productIndex];
+
+  products.splice(productIndex, 1);
+
+  res.status(201).json(product);
+
+  // res.json(products);
 });
 
 app.get("/demo", (req, res) => {

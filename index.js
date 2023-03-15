@@ -16,7 +16,18 @@ app.use(express.json());
 // products
 //API ROOT, base URL, google.com/api/v2
 
-// GET /products READ
+//Create POST /products                 C R U D
+app.post("/products", (req, res) => {
+  // res.json({ type: "POST" });
+
+  console.log(req.body);
+
+  products.push(req.body);
+
+  res.json(products);
+});
+
+//READ GET /products
 app.get("/products", (req, res) => {
   res.json(products);
 });
@@ -35,27 +46,42 @@ app.get("/products/:id", (req, res) => {
   // res.json(products);
 });
 
-//create POST /products
-app.post("/products", (req, res) => {
-  // res.json({ type: "POST" });
+//Update PUT /products/:id
+app.put("/products/:id", (req, res) => {
+  console.log(typeof req.params.id); //string form
 
-  console.log(req.body);
+  const id = +req.params.id;
 
-  products.push(req.body);
+  console.log(typeof id); //number
 
-  res.json(products);
+  const productIndex = products.findIndex((p) => p.id === id);
+
+  products.splice(productIndex, 1, { ...req.body, id: id });
+  res.status(201).json();
+
+  // res.json(products);
 });
 
-app.put("/", (req, res) => {
-  res.json({ type: "PUT" });
+//Update PATCH /products/:id
+app.patch("/products/:id", (req, res) => {
+  console.log(typeof req.params.id); //string form
+
+  const id = +req.params.id;
+
+  console.log(typeof id); //number
+
+  const productIndex = products.findIndex((p) => p.id === id);
+
+  const product = products[productIndex]; //old product
+
+  products.splice(productIndex, 1, { ...product, ...req.body });
+  res.status(201).json();
+
+  // res.json(products);
 });
 
 app.delete("/", (req, res) => {
   res.json({ type: "DELETE" });
-});
-
-app.patch("/", (req, res) => {
-  res.json({ type: "PATCH" });
 });
 
 app.get("/demo", (req, res) => {

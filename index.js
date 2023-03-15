@@ -8,13 +8,14 @@ const app = express();
 // const morgan = require("morgan");
 
 //-------------bodyParser-----------Build-in Middleware--------------------------------------(c)
-// app.use(express.json());
+app.use(express.json());
 // app.use(express.urlencoded());
 // app.use(express.static("public"));
 
 //===============API -Endpoint  -Route==========
 // products
 //API ROOT, base URL, google.com/api/v2
+
 // GET /products READ
 app.get("/products", (req, res) => {
   res.json(products);
@@ -34,9 +35,15 @@ app.get("/products/:id", (req, res) => {
   // res.json(products);
 });
 
-//using auth for POST methdod
-app.post("/", (req, res) => {
-  res.json({ type: "POST" });
+//create POST /products
+app.post("/products", (req, res) => {
+  // res.json({ type: "POST" });
+
+  console.log(req.body);
+
+  products.push(req.body);
+
+  res.json(products);
 });
 
 app.put("/", (req, res) => {
